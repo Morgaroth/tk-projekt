@@ -8,6 +8,14 @@ scalaVersion := "2.10.4"
 
 antlr4Settings
 
+antlr4GenListener in Antlr4 := false
+
+antlr4GenVisitor in Antlr4 := true
+
+antlr4PackageName in Antlr4 := Some("parser")
+
+javaSource in Antlr4 := new File("/home/mateusz/Dropbox/semVI/TK/tk-projekt/src/main/java/")
+
 assemblySettings
 
 jarName in assembly := "simplifier.jar"
