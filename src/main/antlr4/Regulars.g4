@@ -1,6 +1,6 @@
 grammar Regulars;
 
-start : simple_regex;
+start : regex;
 
 
 
