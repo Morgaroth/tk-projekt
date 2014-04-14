@@ -4,30 +4,52 @@ import parser.RegularsParser._
 import scala.collection.JavaConverters._
 
 trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeVisitor {
-  override def visitGroup(ctx: GroupContext): ASTNode = super.visitGroup(ctx)
+  override def visitStart(ctx: StartContext): Regex =
+    visitRegex(ctx.regex())
+
+  override def visitRegex(ctx: RegexContext): Regex =
+    Regex(ctx.simple_regex().asScala.map(visitSimple_regex))
+
+  override def visitSimple_regex(ctx: Simple_regexContext): SimpleRegex =
+    SimpleRegex(ctx.basic_regex().asScala.map(visitBasic_regex))
 
 
-  override def visitAny(ctx: AnyContext): ASTNode = super.visitAny(ctx)
+  override def visitBasic_regex(ctx: Basic_regexContext): BasicRegex = {
+    val notNulls = List(ctx.star(), ctx.plus(), ctx.elementary_regex(), ctx.one_or_none()).filter(_ != null)
+    assert(notNulls.size == 1, "WTF, not one not null?")
+    BasicRegex(notNulls.head.accept(this))
+  }
 
-  override def visitStart(ctx: StartContext): ASTNode = super.visitStart(ctx)
+  override def visitPlus(ctx: PlusContext): OneOrMore =
+    OneOrMore(visitElementary_regex(ctx.elementary_regex()))
 
-  override def visitRegex(ctx: RegexContext): ASTNode = super.visitRegex(ctx)
+  override def visitStar(ctx: StarContext): ZeroOrMore =
+    ZeroOrMore(visitElementary_regex(ctx.elementary_regex()))
 
-  override def visitOne_or_none(ctx: One_or_noneContext): ASTNode = super.visitOne_or_none(ctx)
+  override def visitOne_or_none(ctx: One_or_noneContext): ZeroOrOne =
+    ZeroOrOne(visitElementary_regex(ctx.elementary_regex()))
 
-  override def visitSimple_regex(ctx: Simple_regexContext): ASTNode = super.visitSimple_regex(ctx)
+  override def visitElementary_regex(ctx: Elementary_regexContext): ElementaryRegex = {
+    val notNulls = List(ctx.any(), ctx.group(), ctx.eos(), ctx.character(), ctx.set()).filter(_ != null)
+    assert(notNulls.size == 1, "WTF, not one not null?")
+    ElementaryRegex(notNulls.head.accept(this))
+  }
 
-  override def visitBasic_regex(ctx: Basic_regexContext): ASTNode = super.visitBasic_regex(ctx)
+  override def visitGroup(ctx: GroupContext): ASTNode =
+    visitRegex(ctx.regex())
 
-  override def visitEos(ctx: EosContext): ASTNode = super.visitEos(ctx)
+  override def visitAny(ctx: AnyContext): ASTNode = Any()
 
-  override def visitElementary_regex(ctx: Elementary_regexContext): ASTNode = super.visitElementary_regex(ctx)
+  override def visitEos(ctx: EosContext): ASTNode = End()
 
-  override def visitSet(ctx: SetContext): ASTNode = super.visitSet(ctx)
-
-  override def visitPlus(ctx: PlusContext): ASTNode = super.visitPlus(ctx)
-
-  override def visitStar(ctx: StarContext): ASTNode = super.visitStar(ctx)
+  override def visitSet(ctx: SetContext): ASTNode =
+    if (ctx.negative_set() != null && ctx.positive_set() == null) {
+      Set(visitNegative_set(ctx.negative_set()))
+    } else if (ctx.positive_set() != null && ctx.negative_set() == null) {
+      Set(visitPositive_set(ctx.positive_set()))
+    } else {
+      throw new WTFException
+    }
 
   override def visitPositive_set(ctx: Positive_setContext): PositiveSet =
     PositiveSet(visitSet_items(ctx.set_items()))
@@ -68,5 +90,4 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
     assert(ctx.ANONMETACHARACTER().getSymbol.getText.length == 1, "not one symbol!")
     NonMeta(ctx.ANONMETACHARACTER().getSymbol.getText.charAt(0))
   }
-
 }

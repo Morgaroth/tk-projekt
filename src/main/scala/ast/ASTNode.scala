@@ -4,23 +4,23 @@ sealed abstract class ASTNode
 
 // Agregaty
 
-case class Regex() extends ASTNode
+case class Regex(items: Seq[SimpleRegex]) extends ASTNode
 
-case class SimpleRegex() extends ASTNode
+case class SimpleRegex(items: Seq[BasicRegex]) extends ASTNode
 
-case class BasicRegex() extends ASTNode
+case class BasicRegex(elem: ASTNode) extends ASTNode
 
 //modyfikatory
 
-case class ZeroOrMore() extends ASTNode
+case class ZeroOrMore(elem: ASTNode) extends ASTNode
 
-case class OneOrMore() extends ASTNode
+case class OneOrMore(elem: ASTNode) extends ASTNode
 
-case class ZeroOrOne() extends ASTNode
+case class ZeroOrOne(elem: ASTNode) extends ASTNode
 
 //
 
-case class ElementaryRegex() extends ASTNode
+case class ElementaryRegex(elem: ASTNode) extends ASTNode
 
 case class Group() extends ASTNode
 
@@ -28,7 +28,7 @@ case class Any() extends ASTNode
 
 case class End() extends ASTNode
 
-case class Set() extends ASTNode
+case class Set(set: ASTNode) extends ASTNode
 
 case class PositiveSet(set: SetItems) extends ASTNode
 
