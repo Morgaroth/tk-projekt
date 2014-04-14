@@ -4,12 +4,10 @@ start : regex;
 
 
 
-regex   : regex '|' simple_regex
-        | simple_regex
+regex   : simple_regex ('|' simple_regex)*
         ;
 
-simple_regex    : basic_regex simple_regex
-                | basic_regex
+simple_regex    : basic_regex*
                 ;
 
 
@@ -49,22 +47,24 @@ positive_set    : '[' set_items ']'
 negative_set    : '[^' set_items ']'
                 ;
 
-set_items   : set_items set_item
-            | set_item
+set_items   : set_item*
             ;
 
-set_item    : range
-            | character
+set_item    : (range | character)
             ;
 
-range   : character '-' character
+character   : nonmetacharacter
+            | metacharacter
+            ;
+
+range   : nonmetacharacter '-' nonmetacharacter
         ;
 
+metacharacter   : '\'' METACHARACTER
+                ;
 
-character   : ANONMETACHARACTER
-            | '\'' METACHARACTER
-            ;
-
+nonmetacharacter    : ANONMETACHARACTER
+                    ;
 
 ANONMETACHARACTER : '0' .. '9'
                   | 'a' .. 'z'

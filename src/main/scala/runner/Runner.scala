@@ -12,7 +12,7 @@ object Runner {
     val tokens = new CommonTokenStream(new RegularsLexer(new ANTLRInputStream(expr)))
 
     val parser = new RegularsParser(tokens)
-    val acc = parser.start().accept(_)
-    acc()
+    //val acc = value => parser.start().accept(value)
+
   }
 }
