@@ -1,3 +1,7 @@
-resolvers += "simplytyped.com" at "http://simplytyped.com/repo/releases"
+/*resolvers +=
+  "Sonatype OSS Stagged" at "https://oss.sonatype.org/service/local/staging/deploy/maven2"
 
-addSbtPlugin("com.simplytyped" % "sbt-antlr4" % "0.7.1")
+resolvers +=
+  "sonatype shanphosts" at "https://oss.sonatype.org/content/repositories/snapshots/"
+
+*/

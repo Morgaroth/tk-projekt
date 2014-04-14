@@ -1,3 +1,4 @@
+import sbtassembly.Plugin.AssemblyKeys
 import AssemblyKeys._
 
 name := "tk-projekt"
@@ -14,7 +15,7 @@ antlr4GenVisitor in Antlr4 := true
 
 antlr4PackageName in Antlr4 := Some("parser")
 
-javaSource in Antlr4 := new File("/home/mateusz/Dropbox/semVI/TK/tk-projekt/src/main/java/")
+antlr4OutputDir in Antlr4 := (javaSource in Compile).value
 
 assemblySettings
 
