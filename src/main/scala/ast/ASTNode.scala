@@ -12,11 +12,11 @@ case class BasicRegex(elem: ASTNode) extends ASTNode
 
 //modyfikatory
 
-case class ZeroOrMore(elem: ASTNode) extends ASTNode
+case class ZeroOrMore(elem: ElementaryRegex) extends ASTNode
 
-case class OneOrMore(elem: ASTNode) extends ASTNode
+case class OneOrMore(elem: ElementaryRegex) extends ASTNode
 
-case class ZeroOrOne(elem: ASTNode) extends ASTNode
+case class ZeroOrOne(elem: ElementaryRegex) extends ASTNode
 
 //
 

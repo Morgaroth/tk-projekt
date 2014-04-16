@@ -2,6 +2,7 @@ package runner
 
 import parser.{RegularsLexer, RegularsParser}
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
+import ast.{ASTNode, LoggableTreeVisitor, OurTreeVisitorTrait}
 
 
 object Runner {
@@ -12,7 +13,9 @@ object Runner {
     val tokens = new CommonTokenStream(new RegularsLexer(new ANTLRInputStream(expr)))
 
     val parser = new RegularsParser(tokens)
-    //val acc = value => parser.start().accept(value)
+    val visitor = new OurTreeVisitorTrait with LoggableTreeVisitor
+    val tree: ASTNode = parser.start().accept(visitor)
+
 
   }
 }
