@@ -4,13 +4,15 @@ import parser.RegularsParser._
 import parser.RegularsBaseVisitor
 
 trait OurAbstractTreeVisitorTrait extends RegularsBaseVisitor[ASTNode] {
+  override def visitStart(ctx: StartContext): ASTNode = super.visitStart(ctx)
+
+  override def visitRegex(ctx: RegexContext): ASTNode = super.visitRegex(ctx)
+
   override def visitGroup(ctx: GroupContext): ASTNode = super.visitGroup(ctx)
 
   override def visitPositive_set(ctx: Positive_setContext): ASTNode = super.visitPositive_set(ctx)
 
   override def visitAny(ctx: AnyContext): ASTNode = super.visitAny(ctx)
-
-  override def visitStart(ctx: StartContext): ASTNode = super.visitStart(ctx)
 
   override def visitBasic_regex(ctx: Basic_regexContext): ASTNode = super.visitBasic_regex(ctx)
 
@@ -30,7 +32,6 @@ trait OurAbstractTreeVisitorTrait extends RegularsBaseVisitor[ASTNode] {
 
   override def visitSet(ctx: SetContext): ASTNode = super.visitSet(ctx)
 
-  override def visitRegex(ctx: RegexContext): ASTNode = super.visitRegex(ctx)
 
   override def visitOne_or_none(ctx: One_or_noneContext): ASTNode = super.visitOne_or_none(ctx)
 

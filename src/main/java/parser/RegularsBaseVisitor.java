@@ -1,4 +1,4 @@
-// Generated from /home/mateusz/Dropbox/semVI/TK/tk-projekt/src/main/antlr4/Regulars.g4 by ANTLR 4.2.2
+// Generated from C:\Users\HOUSE\Desktop\tk\tk-projekt\src\main\antlr4\Regulars.g4 by ANTLR 4.2.2
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;

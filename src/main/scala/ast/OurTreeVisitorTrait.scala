@@ -13,7 +13,6 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
   override def visitSimple_regex(ctx: Simple_regexContext): SimpleRegex =
     SimpleRegex(ctx.basic_regex().asScala.map(visitBasic_regex))
 
-
   override def visitBasic_regex(ctx: Basic_regexContext): BasicRegex = {
     val notNulls = List(ctx.star(), ctx.plus(), ctx.elementary_regex(), ctx.one_or_none()).filter(_ != null)
     assert(notNulls.size == 1, "WTF, not one not null?")

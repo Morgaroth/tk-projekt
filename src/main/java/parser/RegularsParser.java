@@ -1,4 +1,4 @@
-// Generated from /home/mateusz/Dropbox/semVI/TK/tk-projekt/src/main/antlr4/Regulars.g4 by ANTLR 4.2.2
+// Generated from C:\Users\HOUSE\Desktop\tk\tk-projekt\src\main\antlr4\Regulars.g4 by ANTLR 4.2.2
 package parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -23,14 +23,15 @@ public class RegularsParser extends Parser {
 	};
 	public static final int
 		RULE_start = 0, RULE_regex = 1, RULE_simple_regex = 2, RULE_basic_regex = 3, 
-		RULE_star = 4, RULE_plus = 5, RULE_one_or_none = 6, RULE_elementary_regex = 7, 
+		RULE_one_or_none = 4, RULE_star = 5, RULE_plus = 6, RULE_elementary_regex = 7, 
 		RULE_group = 8, RULE_any = 9, RULE_eos = 10, RULE_set = 11, RULE_positive_set = 12, 
 		RULE_negative_set = 13, RULE_set_items = 14, RULE_set_item = 15, RULE_character = 16, 
 		RULE_range = 17, RULE_metacharacter = 18, RULE_nonmetacharacter = 19;
 	public static final String[] ruleNames = {
-		"start", "regex", "simple_regex", "basic_regex", "star", "plus", "one_or_none", 
-		"elementary_regex", "group", "any", "eos", "set", "positive_set", "negative_set", 
-		"set_items", "set_item", "character", "range", "metacharacter", "nonmetacharacter"
+		"start", "regex", "simple_regex", "basic_regex", "one_or_none", "star", 
+		"plus", "elementary_regex", "group", "any", "eos", "set", "positive_set", 
+		"negative_set", "set_items", "set_item", "character", "range", "metacharacter", 
+		"nonmetacharacter"
 	};
 
 	@Override
@@ -261,6 +262,42 @@ public class RegularsParser extends Parser {
 		return _localctx;
 	}
 
+	public static class One_or_noneContext extends ParserRuleContext {
+		public Elementary_regexContext elementary_regex() {
+			return getRuleContext(Elementary_regexContext.class,0);
+		}
+		public One_or_noneContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_one_or_none; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof RegularsVisitor ) return ((RegularsVisitor<? extends T>)visitor).visitOne_or_none(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final One_or_noneContext one_or_none() throws RecognitionException {
+		One_or_noneContext _localctx = new One_or_noneContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_one_or_none);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(62); elementary_regex();
+			setState(63); match(10);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class StarContext extends ParserRuleContext {
 		public Elementary_regexContext elementary_regex() {
 			return getRuleContext(Elementary_regexContext.class,0);
@@ -278,12 +315,25 @@ public class RegularsParser extends Parser {
 
 	public final StarContext star() throws RecognitionException {
 		StarContext _localctx = new StarContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_star);
+		enterRule(_localctx, 10, RULE_star);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62); elementary_regex();
-			setState(63); match(7);
+			setState(65); elementary_regex();
+			setState(67); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(66); match(7);
+				}
+				}
+				setState(69); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==7 );
 			}
 		}
 		catch (RecognitionException re) {
@@ -314,48 +364,25 @@ public class RegularsParser extends Parser {
 
 	public final PlusContext plus() throws RecognitionException {
 		PlusContext _localctx = new PlusContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_plus);
+		enterRule(_localctx, 12, RULE_plus);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65); elementary_regex();
-			setState(66); match(4);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class One_or_noneContext extends ParserRuleContext {
-		public Elementary_regexContext elementary_regex() {
-			return getRuleContext(Elementary_regexContext.class,0);
-		}
-		public One_or_noneContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_one_or_none; }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof RegularsVisitor ) return ((RegularsVisitor<? extends T>)visitor).visitOne_or_none(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final One_or_noneContext one_or_none() throws RecognitionException {
-		One_or_noneContext _localctx = new One_or_noneContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_one_or_none);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(68); elementary_regex();
-			setState(69); match(10);
+			setState(71); elementary_regex();
+			setState(73); 
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			do {
+				{
+				{
+				setState(72); match(4);
+				}
+				}
+				setState(75); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			} while ( _la==4 );
 			}
 		}
 		catch (RecognitionException re) {
@@ -400,38 +427,38 @@ public class RegularsParser extends Parser {
 		Elementary_regexContext _localctx = new Elementary_regexContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_elementary_regex);
 		try {
-			setState(76);
+			setState(82);
 			switch (_input.LA(1)) {
 			case 8:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(71); group();
+				setState(77); group();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(72); any();
+				setState(78); any();
 				}
 				break;
 			case 13:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(73); eos();
+				setState(79); eos();
 				}
 				break;
 			case 11:
 			case ANONMETACHARACTER:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(74); character();
+				setState(80); character();
 				}
 				break;
 			case 6:
 			case 9:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(75); set();
+				setState(81); set();
 				}
 				break;
 			default:
@@ -470,9 +497,9 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(78); match(8);
-			setState(79); regex();
-			setState(80); match(3);
+			setState(84); match(8);
+			setState(85); regex();
+			setState(86); match(3);
 			}
 		}
 		catch (RecognitionException re) {
@@ -504,7 +531,7 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82); match(2);
+			setState(88); match(2);
 			}
 		}
 		catch (RecognitionException re) {
@@ -536,7 +563,7 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84); match(13);
+			setState(90); match(13);
 			}
 		}
 		catch (RecognitionException re) {
@@ -572,18 +599,18 @@ public class RegularsParser extends Parser {
 		SetContext _localctx = new SetContext(_ctx, getState());
 		enterRule(_localctx, 22, RULE_set);
 		try {
-			setState(88);
+			setState(94);
 			switch (_input.LA(1)) {
 			case 6:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(86); positive_set();
+				setState(92); positive_set();
 				}
 				break;
 			case 9:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(87); negative_set();
+				setState(93); negative_set();
 				}
 				break;
 			default:
@@ -622,9 +649,9 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(90); match(6);
-			setState(91); set_items();
-			setState(92); match(1);
+			setState(96); match(6);
+			setState(97); set_items();
+			setState(98); match(1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -659,9 +686,9 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(94); match(9);
-			setState(95); set_items();
-			setState(96); match(1);
+			setState(100); match(9);
+			setState(101); set_items();
+			setState(102); match(1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -700,16 +727,16 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(101);
+			setState(107);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==11 || _la==ANONMETACHARACTER) {
 				{
 				{
-				setState(98); set_item();
+				setState(104); set_item();
 				}
 				}
-				setState(103);
+				setState(109);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -750,17 +777,17 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106);
-			switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
+			setState(112);
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				{
-				setState(104); range();
+				setState(110); range();
 				}
 				break;
 
 			case 2:
 				{
-				setState(105); character();
+				setState(111); character();
 				}
 				break;
 			}
@@ -799,18 +826,18 @@ public class RegularsParser extends Parser {
 		CharacterContext _localctx = new CharacterContext(_ctx, getState());
 		enterRule(_localctx, 32, RULE_character);
 		try {
-			setState(110);
+			setState(116);
 			switch (_input.LA(1)) {
 			case ANONMETACHARACTER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(108); nonmetacharacter();
+				setState(114); nonmetacharacter();
 				}
 				break;
 			case 11:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(109); metacharacter();
+				setState(115); metacharacter();
 				}
 				break;
 			default:
@@ -852,9 +879,9 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(112); nonmetacharacter();
-			setState(113); match(5);
-			setState(114); nonmetacharacter();
+			setState(118); nonmetacharacter();
+			setState(119); match(5);
+			setState(120); nonmetacharacter();
 			}
 		}
 		catch (RecognitionException re) {
@@ -887,8 +914,8 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(116); match(11);
-			setState(117); match(METACHARACTER);
+			setState(122); match(11);
+			setState(123); match(METACHARACTER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -921,7 +948,7 @@ public class RegularsParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119); match(ANONMETACHARACTER);
+			setState(125); match(ANONMETACHARACTER);
 			}
 		}
 		catch (RecognitionException re) {
@@ -936,34 +963,36 @@ public class RegularsParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\21|\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
-		"\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22\4\23"+
-		"\t\23\4\24\t\24\4\25\t\25\3\2\3\2\3\3\3\3\3\3\7\3\60\n\3\f\3\16\3\63\13"+
-		"\3\3\4\7\4\66\n\4\f\4\16\49\13\4\3\5\3\5\3\5\3\5\5\5?\n\5\3\6\3\6\3\6"+
-		"\3\7\3\7\3\7\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\5\tO\n\t\3\n\3\n\3\n\3\n"+
-		"\3\13\3\13\3\f\3\f\3\r\3\r\5\r[\n\r\3\16\3\16\3\16\3\16\3\17\3\17\3\17"+
-		"\3\17\3\20\7\20f\n\20\f\20\16\20i\13\20\3\21\3\21\5\21m\n\21\3\22\3\22"+
-		"\5\22q\n\22\3\23\3\23\3\23\3\23\3\24\3\24\3\24\3\25\3\25\3\25\2\2\26\2"+
-		"\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(\2\2t\2*\3\2\2\2\4,\3\2\2\2"+
-		"\6\67\3\2\2\2\b>\3\2\2\2\n@\3\2\2\2\fC\3\2\2\2\16F\3\2\2\2\20N\3\2\2\2"+
-		"\22P\3\2\2\2\24T\3\2\2\2\26V\3\2\2\2\30Z\3\2\2\2\32\\\3\2\2\2\34`\3\2"+
-		"\2\2\36g\3\2\2\2 l\3\2\2\2\"p\3\2\2\2$r\3\2\2\2&v\3\2\2\2(y\3\2\2\2*+"+
-		"\5\4\3\2+\3\3\2\2\2,\61\5\6\4\2-.\7\16\2\2.\60\5\6\4\2/-\3\2\2\2\60\63"+
-		"\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2\62\5\3\2\2\2\63\61\3\2\2\2\64\66\5"+
-		"\b\5\2\65\64\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3\2\2\28\7\3\2\2\2"+
-		"9\67\3\2\2\2:?\5\n\6\2;?\5\f\7\2<?\5\20\t\2=?\5\16\b\2>:\3\2\2\2>;\3\2"+
-		"\2\2><\3\2\2\2>=\3\2\2\2?\t\3\2\2\2@A\5\20\t\2AB\7\t\2\2B\13\3\2\2\2C"+
-		"D\5\20\t\2DE\7\6\2\2E\r\3\2\2\2FG\5\20\t\2GH\7\f\2\2H\17\3\2\2\2IO\5\22"+
-		"\n\2JO\5\24\13\2KO\5\26\f\2LO\5\"\22\2MO\5\30\r\2NI\3\2\2\2NJ\3\2\2\2"+
-		"NK\3\2\2\2NL\3\2\2\2NM\3\2\2\2O\21\3\2\2\2PQ\7\n\2\2QR\5\4\3\2RS\7\5\2"+
-		"\2S\23\3\2\2\2TU\7\4\2\2U\25\3\2\2\2VW\7\17\2\2W\27\3\2\2\2X[\5\32\16"+
-		"\2Y[\5\34\17\2ZX\3\2\2\2ZY\3\2\2\2[\31\3\2\2\2\\]\7\b\2\2]^\5\36\20\2"+
-		"^_\7\3\2\2_\33\3\2\2\2`a\7\13\2\2ab\5\36\20\2bc\7\3\2\2c\35\3\2\2\2df"+
-		"\5 \21\2ed\3\2\2\2fi\3\2\2\2ge\3\2\2\2gh\3\2\2\2h\37\3\2\2\2ig\3\2\2\2"+
-		"jm\5$\23\2km\5\"\22\2lj\3\2\2\2lk\3\2\2\2m!\3\2\2\2nq\5(\25\2oq\5&\24"+
-		"\2pn\3\2\2\2po\3\2\2\2q#\3\2\2\2rs\5(\25\2st\7\7\2\2tu\5(\25\2u%\3\2\2"+
-		"\2vw\7\r\2\2wx\7\21\2\2x\'\3\2\2\2yz\7\20\2\2z)\3\2\2\2\n\61\67>NZglp";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\21\u0082\4\2\t\2"+
+		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
+		"\4\23\t\23\4\24\t\24\4\25\t\25\3\2\3\2\3\3\3\3\3\3\7\3\60\n\3\f\3\16\3"+
+		"\63\13\3\3\4\7\4\66\n\4\f\4\16\49\13\4\3\5\3\5\3\5\3\5\5\5?\n\5\3\6\3"+
+		"\6\3\6\3\7\3\7\6\7F\n\7\r\7\16\7G\3\b\3\b\6\bL\n\b\r\b\16\bM\3\t\3\t\3"+
+		"\t\3\t\3\t\5\tU\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3\f\3\f\3\r\3\r\5\ra\n\r"+
+		"\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\20\7\20l\n\20\f\20\16\20o\13"+
+		"\20\3\21\3\21\5\21s\n\21\3\22\3\22\5\22w\n\22\3\23\3\23\3\23\3\23\3\24"+
+		"\3\24\3\24\3\25\3\25\3\25\2\2\26\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36"+
+		" \"$&(\2\2|\2*\3\2\2\2\4,\3\2\2\2\6\67\3\2\2\2\b>\3\2\2\2\n@\3\2\2\2\f"+
+		"C\3\2\2\2\16I\3\2\2\2\20T\3\2\2\2\22V\3\2\2\2\24Z\3\2\2\2\26\\\3\2\2\2"+
+		"\30`\3\2\2\2\32b\3\2\2\2\34f\3\2\2\2\36m\3\2\2\2 r\3\2\2\2\"v\3\2\2\2"+
+		"$x\3\2\2\2&|\3\2\2\2(\177\3\2\2\2*+\5\4\3\2+\3\3\2\2\2,\61\5\6\4\2-.\7"+
+		"\16\2\2.\60\5\6\4\2/-\3\2\2\2\60\63\3\2\2\2\61/\3\2\2\2\61\62\3\2\2\2"+
+		"\62\5\3\2\2\2\63\61\3\2\2\2\64\66\5\b\5\2\65\64\3\2\2\2\669\3\2\2\2\67"+
+		"\65\3\2\2\2\678\3\2\2\28\7\3\2\2\29\67\3\2\2\2:?\5\f\7\2;?\5\16\b\2<?"+
+		"\5\20\t\2=?\5\n\6\2>:\3\2\2\2>;\3\2\2\2><\3\2\2\2>=\3\2\2\2?\t\3\2\2\2"+
+		"@A\5\20\t\2AB\7\f\2\2B\13\3\2\2\2CE\5\20\t\2DF\7\t\2\2ED\3\2\2\2FG\3\2"+
+		"\2\2GE\3\2\2\2GH\3\2\2\2H\r\3\2\2\2IK\5\20\t\2JL\7\6\2\2KJ\3\2\2\2LM\3"+
+		"\2\2\2MK\3\2\2\2MN\3\2\2\2N\17\3\2\2\2OU\5\22\n\2PU\5\24\13\2QU\5\26\f"+
+		"\2RU\5\"\22\2SU\5\30\r\2TO\3\2\2\2TP\3\2\2\2TQ\3\2\2\2TR\3\2\2\2TS\3\2"+
+		"\2\2U\21\3\2\2\2VW\7\n\2\2WX\5\4\3\2XY\7\5\2\2Y\23\3\2\2\2Z[\7\4\2\2["+
+		"\25\3\2\2\2\\]\7\17\2\2]\27\3\2\2\2^a\5\32\16\2_a\5\34\17\2`^\3\2\2\2"+
+		"`_\3\2\2\2a\31\3\2\2\2bc\7\b\2\2cd\5\36\20\2de\7\3\2\2e\33\3\2\2\2fg\7"+
+		"\13\2\2gh\5\36\20\2hi\7\3\2\2i\35\3\2\2\2jl\5 \21\2kj\3\2\2\2lo\3\2\2"+
+		"\2mk\3\2\2\2mn\3\2\2\2n\37\3\2\2\2om\3\2\2\2ps\5$\23\2qs\5\"\22\2rp\3"+
+		"\2\2\2rq\3\2\2\2s!\3\2\2\2tw\5(\25\2uw\5&\24\2vt\3\2\2\2vu\3\2\2\2w#\3"+
+		"\2\2\2xy\5(\25\2yz\7\7\2\2z{\5(\25\2{%\3\2\2\2|}\7\r\2\2}~\7\21\2\2~\'"+
+		"\3\2\2\2\177\u0080\7\20\2\2\u0080)\3\2\2\2\f\61\67>GMT`mrv";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

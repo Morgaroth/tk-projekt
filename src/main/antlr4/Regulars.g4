@@ -2,27 +2,22 @@ grammar Regulars;
 
 start : regex;
 
-
-
 regex   : simple_regex ('|' simple_regex)*
         ;
 
 simple_regex    : basic_regex*
                 ;
 
-
 basic_regex : star
             | plus
             | elementary_regex
             | one_or_none ;
 
-star    : elementary_regex '*' ;
-
-plus    : elementary_regex '+' ;
-
 one_or_none : elementary_regex '?' ;
 
+star    : elementary_regex '*'+ ;
 
+plus    : elementary_regex '+'+ ;
 
 elementary_regex    : group
                     | any
@@ -35,7 +30,6 @@ group   : '(' regex ')' ;
 any : '.' ;
 
 eos :   '$' ;
-
 
 set : positive_set
     | negative_set
@@ -74,6 +68,5 @@ ANONMETACHARACTER : '0' .. '9'
 METACHARACTER   : '[' | ']'
                 | '(' | ')'
                 | '*' | '+'
-                | '$' | '.'
                 | '?' | '|'
                 ;

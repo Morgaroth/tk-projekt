@@ -38,9 +38,9 @@ case class SetItems(items: Seq[SetItem]) extends ASTNode
 
 case class SetItem(item: ASTNode) extends ASTNode
 
-case class Range(beg: NonMeta, end: NonMeta) extends ASTNode
-
 case class Character(char: Char) extends ASTNode
+
+case class Range(beg: NonMeta, end: NonMeta) extends ASTNode
 
 case class Meta(character: Char) extends ASTNode
 
