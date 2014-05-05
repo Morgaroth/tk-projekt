@@ -1,5 +1,32 @@
-[info] Loading project definition from C:\Users\HOUSE\Desktop\tk\tk-projekt\project
-[info] Set current project to tk-projekt (in build file:/C:/Users/HOUSE/Desktop/tk/tk-projekt/)
-[info] Running runner.Runner 
-Regex(ArrayBuffer(SimpleRegex(ArrayBuffer(BasicRegex(ElementaryRegex(NonMeta(a))))), SimpleRegex(ArrayBuffer(BasicRegex(ZeroOrMore(ElementaryRegex(NonMeta(a))))))))
-[success] Total time: 2 s, completed 2014-04-18 21:52:35
+"""a*a*|a"""
+Regex(
+	ArrayBuffer(
+		SimpleRegex(
+			ArrayBuffer(
+				BasicRegex(
+					ZeroOrMore(
+						ElementaryRegex(
+							NonMeta(
+								a
+							)
+						)
+					)
+				), 
+				BasicRegex(
+					ZeroOrMore(
+						ElementaryRegex(
+							NonMeta(
+								a
+							)
+						)
+					)
+				)
+			)
+		), 
+		SimpleRegex(
+			ArrayBuffer(
+				BasicRegex(
+					ElementaryRegex(
+						NonMeta(
+							a
+						)))))))
