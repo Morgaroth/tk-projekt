@@ -7,31 +7,44 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
   override def visitStart(ctx: StartContext): Regex =
     visitRegex(ctx.regex())
 
-  override def visitRegex(ctx: RegexContext): Regex =
-    Regex(ctx.simple_regex().asScala.map(visitSimple_regex))
-
-  override def visitSimple_regex(ctx: Simple_regexContext): SimpleRegex =
-    SimpleRegex(ctx.basic_regex().asScala.map(visitBasic_regex))
-
-  override def visitBasic_regex(ctx: Basic_regexContext): BasicRegex = {
-    val notNulls = List(ctx.star(), ctx.plus(), ctx.elementary_regex(), ctx.one_or_none()).filter(_ != null)
-    assert(notNulls.size == 1, "WTF, not one not null?")
-    BasicRegex(notNulls.head.accept(this))
+  override def visitRegex(ctx: RegexContext): Regex = {
+    val list = ctx.simple_regex().asScala.toList.map(_.accept(this))
+    println(s"visitRegex with elements $list size ${list.size}")
+    Regex(list)
   }
 
-  override def visitPlus(ctx: PlusContext): OneOrMore =
-    OneOrMore(visitElementary_regex(ctx.elementary_regex()))
+  override def visitSimple_regex(ctx: Simple_regexContext): SimpleRegex = {
+    val basicRegex = ctx.basic_regex()
+    val result = basicRegex.asScala.toList.map(_.accept(this))
+    println(s"visitSimpleRegex $result, size=${result.size}")
+    SimpleRegex(result)
+  }
 
-  override def visitStar(ctx: StarContext): ZeroOrMore =
-    ZeroOrMore(visitElementary_regex(ctx.elementary_regex()))
+  override def visitBasic_regex(ctx: Basic_regexContext): ASTNode = {
+    val notNulls = List(ctx.star(), ctx.plus(), ctx.elementary_regex(), ctx.one_or_none()).filter(_ != null)
+    assert(notNulls.size == 1, s"WTF, not one not null ? -> $notNulls")
+    notNulls.head.accept(this)
+  }
+
+  override def visitPlus(ctx: PlusContext): OneOrMore = {
+    val elementary_regex: ASTNode = visitElementary_regex(ctx.elementary_regex())
+    println(s"visitPlus $elementary_regex")
+    OneOrMore(elementary_regex)
+  }
+
+  override def visitStar(ctx: StarContext): ZeroOrMore = {
+    val elementary_regex = ZeroOrMore(visitElementary_regex(ctx.elementary_regex()))
+    println(s"visitStar $elementary_regex")
+    elementary_regex
+  }
 
   override def visitOne_or_none(ctx: One_or_noneContext): ZeroOrOne =
     ZeroOrOne(visitElementary_regex(ctx.elementary_regex()))
 
-  override def visitElementary_regex(ctx: Elementary_regexContext): ElementaryRegex = {
+  override def visitElementary_regex(ctx: Elementary_regexContext): ASTNode = {
     val notNulls = List(ctx.any(), ctx.group(), ctx.eos(), ctx.character(), ctx.set()).filter(_ != null)
-    assert(notNulls.size == 1, "WTF, not one not null?")
-    ElementaryRegex(notNulls.head.accept(this))
+    assert(notNulls.size == 1, s"WTF, not one not null ? -> $notNulls")
+    notNulls.head.accept(this)
   }
 
   override def visitGroup(ctx: GroupContext): ASTNode =
@@ -57,7 +70,7 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
     NegativeSet(visitSet_items(ctx.set_items()))
 
   override def visitSet_items(ctx: Set_itemsContext): SetItems =
-    SetItems(ctx.set_item.asScala.map(visitSet_item))
+    SetItems(ctx.set_item.asScala.toList.map(visitSet_item))
 
   override def visitSet_item(ctx: Set_itemContext): SetItem =
     if (ctx.range() != null && ctx.character() == null) {
@@ -68,25 +81,33 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
       throw new WTFException
     }
 
-  override def visitCharacter(ctx: CharacterContext): ASTNode =
-    if (ctx.metacharacter() != null && ctx.nonmetacharacter() == null) {
-      ctx.metacharacter().accept(this)
-    } else if (ctx.metacharacter() == null && ctx.nonmetacharacter() != null) {
-      ctx.nonmetacharacter().accept(this)
-    } else {
-      throw new WTFException
-    }
+  override def visitCharacter(ctx: CharacterContext): ASTNode = {
+    val meta =
+      if (ctx.metacharacter() != null && ctx.nonmetacharacter() == null) {
+        ctx.metacharacter().accept(this)
+      } else if (ctx.metacharacter() == null && ctx.nonmetacharacter() != null) {
+        ctx.nonmetacharacter().accept(this)
+      } else {
+        throw new WTFException
+      }
+    println(s"visitCharacter $meta")
+    meta
+  }
 
   override def visitRange(ctx: RangeContext): Range =
     Range(visitNonmetacharacter(ctx.nonmetacharacter(0)), visitNonmetacharacter(ctx.nonmetacharacter(1)))
 
   override def visitMetacharacter(ctx: MetacharacterContext): Meta = {
+    println(s"visiting metcharacter ${ctx.METACHARACTER().toString}")
     assert(ctx.METACHARACTER().getSymbol.getText.length == 1, "not one symbol!")
     Meta(ctx.METACHARACTER().getSymbol.getText.charAt(0))
   }
 
   override def visitNonmetacharacter(ctx: NonmetacharacterContext): NonMeta = {
     assert(ctx.ANONMETACHARACTER().getSymbol.getText.length == 1, "not one symbol!")
-    NonMeta(ctx.ANONMETACHARACTER().getSymbol.getText.charAt(0))
+    val nonMeta: Char = ctx.ANONMETACHARACTER().getSymbol.getText.charAt(0)
+    println(s"visitNonmetacharacter $nonMeta")
+    NonMeta(nonMeta)
   }
+
 }

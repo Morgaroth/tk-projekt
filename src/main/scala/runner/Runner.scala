@@ -2,56 +2,86 @@ package runner
 
 import parser.{RegularsLexer, RegularsParser}
 import org.antlr.v4.runtime.{ANTLRInputStream, CommonTokenStream}
-import ast.{ASTNode, LoggableTreeVisitor, OurTreeVisitorTrait}
 import ast._
+
 
 object Runner {
 
-  def simplifier(tree : ASTNode) : ASTNode = {
-    tree match {
-        case Regex(m) => {
-            val newSeq = m.map(x => simplifier(x).asInstanceOf[SimpleRegex]).distinct;
-            Regex(newSeq)
+  def simplifier(node: ASTNode): ASTNode = {
+    def reduceList(elems: List[ASTNode]) = {
+      import Reducer._
+      elems.map(simplifier).reduceItself
+    }
+    node match {
+      //agregaty
+      case Regex(m) =>
+        // regex jest zbiorem alternatyw, więc redukujemy po alternatywach
+        println(s"reduce $m")
+        def reduceSimple(element: ASTNode, list: List[ASTNode]): List[ASTNode] = {
+          println(s"reduce simple elem $element with $list")
+          list match {
+            case (s@ZeroOrMore(second)) :: tail if element.equals(second) =>
+              val more: OneOrMore = OneOrMore(second)
+              println(s"executed ${element.toRegex} & ${s.toRegex} => ${more.toRegex}")
+              more :: reduceSimple(element, tail)
+            case Nil => Nil
+            case onlyOne :: Nil => List(onlyOne)
+            case head :: tail => head :: reduceSimple(element, tail)
+          }
         }
-        case SimpleRegex(m) => {
-            val newSeq = m.map(x => simplifier(x).asInstanceOf[BasicRegex]);
-            val newSeqArray = m.toArray;
-            val newSeqArraySize = m.length - 2;
-            val a = 0;
-
-            val li = List();
-
-            for(a <- 0 to newSeqArraySize){
-                if(newSeqArray(a) equals newSeqArray(a+1)){
-                    newSeqArray(a) match {
-                        case BasicRegex(ZeroOrMore(e)) =>
-                        case _ => li = li:::List(newSeqArray(a));
-                    }
-                }else{
-                    li:::List(newSeqArray(a));
-                }
-            }
-            if(m.toArray.length > 1){
-                SimpleRegex(li.toSeq)
-            }else{
-                SimpleRegex(newSeq)
-            }
+        def reduce(list: List[ASTNode]): List[ASTNode] = {
+          println(s"reducePRV $list")
+          list match {
+            case onlyOne :: Nil => List(onlyOne)
+            case head :: tail => reduceSimple(head, reduce(tail))
+          }
         }
-        case _ => tree
+        val mapOfSimplified: List[ASTNode] = m.map(simplifier)
+        println(s"mapOfSimplified $mapOfSimplified")
+        Regex(reduce(mapOfSimplified))
+      case SimpleRegex(m) =>
+        println(s"simplifying SimpleRegex { $m }")
+        val reduced: List[ASTNode] = reduceList(m)
+        if (reduced.size == 1)
+          reduced.head
+        else
+          SimpleRegex(reduced)
+      case SetItems(items) => SetItems(reduceList(items))
+      //dekoratory
+      case Set(elem) => Set(simplifier(elem))
+      case PositiveSet(items) => PositiveSet(simplifier(items))
+      case NegativeSet(items) => NegativeSet(simplifier(items))
+      case ZeroOrMore(elem) => ZeroOrMore(simplifier(elem))
+      case ZeroOrOne(elem) => ZeroOrOne(simplifier(elem))
+      case OneOrMore(elem) => OneOrMore(simplifier(elem))
+      case l => l
     }
   }
 
-  def main(args: Array[String]) {
-    val expr = """a*a*"""
-    //val expr = """(((c+(c+(a(b+b))a))+c)+ac)"""
-    val tokens = new CommonTokenStream(new RegularsLexer(new ANTLRInputStream(expr)))
-
+  def simple(regex: String) = {
+    val tokens = new CommonTokenStream(new RegularsLexer(new ANTLRInputStream(regex)))
     val parser = new RegularsParser(tokens)
     val visitor = new OurTreeVisitorTrait with LoggableTreeVisitor
     val tree: ASTNode = parser.start().accept(visitor)
-    //println(tree)
-    //simplifier(tree)
-    println(simplifier(tree))
+    println(tree)
+    println(tree.toRegex)
+    val result: ASTNode = simplifier(tree)
+    result
+  }
 
+  def main(args: Array[String]) {
+    args.toList match {
+      case elem :: tail =>
+        //        val a = elem.replace( '""", """\""")
+        val a = elem
+        val result = simple(a)
+        println(result + " dupa")
+        println(result.toRegex + " dupa2")
+      case _ => println("nie podano argumentów")
+    }
   }
 }
+
+/*
+
+ */

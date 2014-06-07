@@ -1,4 +1,4 @@
-// Generated from C:\Users\HOUSE\Desktop\tk\tk-projekt\src\main\antlr4\Regulars.g4 by ANTLR 4.2.2
+// Generated from /home/mateusz/Dropbox/semVI/TK/tk-projekt/src/main/antlr4/Regulars.g4 by ANTLR 4.2.2
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -11,6 +11,13 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  * operations with no return type.
  */
 public interface RegularsVisitor<T> extends ParseTreeVisitor<T> {
+	/**
+	 * Visit a parse tree produced by {@link RegularsParser#wh}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWh(@NotNull RegularsParser.WhContext ctx);
+
 	/**
 	 * Visit a parse tree produced by {@link RegularsParser#plus}.
 	 * @param ctx the parse tree

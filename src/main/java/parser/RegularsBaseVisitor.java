@@ -1,4 +1,4 @@
-// Generated from C:\Users\HOUSE\Desktop\tk\tk-projekt\src\main\antlr4\Regulars.g4 by ANTLR 4.2.2
+// Generated from /home/mateusz/Dropbox/semVI/TK/tk-projekt/src/main/antlr4/Regulars.g4 by ANTLR 4.2.2
 package parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -12,6 +12,14 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 public class RegularsBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements RegularsVisitor<T> {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitWh(@NotNull RegularsParser.WhContext ctx) { return visitChildren(ctx); }
+
 	/**
 	 * {@inheritDoc}
 	 *

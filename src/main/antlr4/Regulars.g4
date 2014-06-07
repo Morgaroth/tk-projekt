@@ -2,7 +2,7 @@ grammar Regulars;
 
 start : regex;
 
-regex   : simple_regex ('|' simple_regex)*
+regex   :simple_regex ( '|' simple_regex)*
         ;
 
 simple_regex    : basic_regex*
@@ -54,11 +54,13 @@ character   : nonmetacharacter
 range   : nonmetacharacter '-' nonmetacharacter
         ;
 
-metacharacter   : '\'' METACHARACTER
+metacharacter   : '\\' METACHARACTER
                 ;
 
 nonmetacharacter    : ANONMETACHARACTER
                     ;
+wh  : WS*
+    ;
 
 ANONMETACHARACTER : '0' .. '9'
                   | 'a' .. 'z'
@@ -70,3 +72,6 @@ METACHARACTER   : '[' | ']'
                 | '*' | '+'
                 | '?' | '|'
                 ;
+
+WS     : ' ' | '\n'
+       ;

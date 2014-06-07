@@ -7,6 +7,10 @@ version := "1.0.0"
 
 scalaVersion := "2.10.4"
 
+libraryDependencies ++= Seq(
+  "org.specs2" %% "specs2" % "2.3.12"
+)
+
 antlr4Settings
 
 antlr4GenListener in Antlr4 := false
