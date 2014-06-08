@@ -11,6 +11,9 @@ class Specs extends Specification {
     aa* => a+               $e2
     a*a* => a*              $e3
     a | a* => a*            $e4
+    a* | a => a*            $e15
+    a+ | a                  $e13
+    a | a+                  $e14
     ab|ac => a(b|c)         $e5
     ac|bc => (a|b)c         $e6
     (aa|a)* => a*           $e7
@@ -36,6 +39,12 @@ class Specs extends Specification {
 
   def e4 = Runner.simple("a|a*").toRegex must beEqualTo("a*")
 
+  def e15 = Runner.simple("a*|a").toRegex must beEqualTo("a*")
+
+  def e13 = Runner.simple("a+|a").toRegex must beEqualTo("a+")
+
+  def e14 = Runner.simple("a|a+").toRegex must beEqualTo("a+")
+
   def e5 = Runner.simple("ab|ac").toRegex must beEqualTo("a(b|c)")
 
   def e6 = Runner.simple("ac|bc").toRegex must beEqualTo("(a|b)c")
@@ -51,6 +60,5 @@ class Specs extends Specification {
   def e11 = Runner.simple("a(bc)").toRegex must beEqualTo("abc")
 
   def e12 = Runner.simple("a|b|a").toRegex must beEqualTo("a|b")
-
 
 }

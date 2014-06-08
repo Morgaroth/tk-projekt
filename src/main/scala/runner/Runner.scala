@@ -17,28 +17,10 @@ object Runner {
       case Regex(m) =>
         // regex jest zbiorem alternatyw, więc redukujemy po alternatywach
         println(s"reduce $m")
-        def reduceSimple(element: ASTNode, list: List[ASTNode]): List[ASTNode] = {
-          println(s"reduce simple elem $element with $list")
-          list match {
-            case (s@ZeroOrMore(second)) :: tail if element.equals(second) =>
-              val more: OneOrMore = OneOrMore(second)
-              println(s"executed ${element.toRegex} & ${s.toRegex} => ${more.toRegex}")
-              more :: reduceSimple(element, tail)
-            case Nil => Nil
-            case onlyOne :: Nil => List(onlyOne)
-            case head :: tail => head :: reduceSimple(element, tail)
-          }
-        }
-        def reduce(list: List[ASTNode]): List[ASTNode] = {
-          println(s"reducePRV $list")
-          list match {
-            case onlyOne :: Nil => List(onlyOne)
-            case head :: tail => reduceSimple(head, reduce(tail))
-          }
-        }
+        import AlternativeReducer._
         val mapOfSimplified: List[ASTNode] = m.map(simplifier)
         println(s"mapOfSimplified $mapOfSimplified")
-        Regex(reduce(mapOfSimplified))
+        Regex(mapOfSimplified.reduceAlternatives.reverse.reduceAlternatives.reverse)
       case SimpleRegex(m) =>
         println(s"simplifying SimpleRegex { $m }")
         val reduced: List[ASTNode] = reduceList(m)
