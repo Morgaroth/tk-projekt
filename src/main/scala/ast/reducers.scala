@@ -48,8 +48,9 @@ class Reducer(list: List[ASTNode]) {
         println(s"executed ${f.toRegex} & ${s.toRegex} => ${f.toRegex}")
         reducePrv(f :: tail)
       case (f@OneOrMore(firstElem)) :: (s@OneOrMore(secondElem)) :: tail if firstElem.equals(secondElem) =>
-        println(s"executed ${f.toRegex} & ${s.toRegex} => ${f.toRegex}")
-        reducePrv(f :: tail)
+        val n = FixedRepeting(firstElem, 2)
+        println(s"executed ${f.toRegex} & ${s.toRegex} => ${n.toRegex}")
+        reducePrv(n :: tail)
       case (f@OneOrMore(firstElem)) :: (s@ZeroOrOne(secondElem)) :: tail if firstElem.equals(secondElem) =>
         println(s"executed ${f.toRegex} & ${s.toRegex} => ${f.toRegex}")
         reducePrv(f :: tail)
@@ -153,7 +154,6 @@ object AlternativeReducer {
 
 class AlternativeReducer(list: List[ASTNode]) {
 
-  //  def reduceSimpleFront(listIn: List[ASTNode]): List[ASTNode] = {
   object Element {
     def unapply(elem: ASTNode) =
       elem match {
@@ -173,7 +173,7 @@ class AlternativeReducer(list: List[ASTNode]) {
           case Element(externalElem, internalElem) =>
             val (notAccepted, accepted) =
               restElements.span {
-                case second if internalElem.equals(second) => false
+                  case second if internalElem.equals(second) => false
                 case _ => true
               }
             //accepted albo jest pusta, albo znalazło dobry element
