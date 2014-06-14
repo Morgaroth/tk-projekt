@@ -10,8 +10,15 @@ simple_regex    : basic_regex*
 
 basic_regex : star
             | plus
+            | one_or_none
             | elementary_regex
-            | one_or_none ;
+            | fixed_repeat_regex
+            ;
+
+fixed_repeat_regex  : elementary_regex '{' number '}'
+                    | elementary_regex '{' number ',' '}'
+                    | elementary_regex '{' number ',' number '}'
+                    ;
 
 one_or_none : elementary_regex '?' ;
 
@@ -59,8 +66,10 @@ metacharacter   : '\\' METACHARACTER
 
 nonmetacharacter    : ANONMETACHARACTER
                     ;
-wh  : WS*
-    ;
+
+number : NUMBER* ;
+
+NUMBER : [0-9] ;
 
 ANONMETACHARACTER : '0' .. '9'
                   | 'a' .. 'z'

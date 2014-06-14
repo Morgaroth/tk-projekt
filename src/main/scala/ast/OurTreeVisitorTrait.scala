@@ -1,6 +1,7 @@
 package ast
 
 import parser.RegularsParser._
+
 import scala.collection.JavaConverters._
 
 trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeVisitor {
@@ -110,4 +111,13 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
     NonMeta(nonMeta)
   }
 
+  override def visitFixed_repeat_regex(ctx: Fixed_repeat_regexContext): ASTNode = {
+    super.visitFixed_repeat_regex(ctx)
+  }
+
+  override def visitNumber(ctx: NumberContext): ASTNode = {
+    val number = ctx.NUMBER().asScala.map(_.toString).reduce(_ + _)
+    val parsedInt = number.toInt
+    Number(parsedInt)
+  }
 }

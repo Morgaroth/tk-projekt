@@ -33,6 +33,10 @@ trait OurAbstractTreeVisitorTrait extends RegularsBaseVisitor[ASTNode] {
   override def visitSet(ctx: SetContext): ASTNode = super.visitSet(ctx)
 
 
+  override def visitFixed_repeat_regex(ctx: Fixed_repeat_regexContext): ASTNode = super.visitFixed_repeat_regex(ctx)
+
+  override def visitNumber(ctx: NumberContext): ASTNode = super.visitNumber(ctx)
+
   override def visitOne_or_none(ctx: One_or_noneContext): ASTNode = super.visitOne_or_none(ctx)
 
   override def visitSimple_regex(ctx: Simple_regexContext): ASTNode = super.visitSimple_regex(ctx)

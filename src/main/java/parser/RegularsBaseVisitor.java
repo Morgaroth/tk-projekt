@@ -18,7 +18,7 @@ public class RegularsBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWh(@NotNull RegularsParser.WhContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFixed_repeat_regex(@NotNull RegularsParser.Fixed_repeat_regexContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -66,7 +66,7 @@ public class RegularsBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRegex(@NotNull RegularsParser.RegexContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSet(@NotNull RegularsParser.SetContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -74,7 +74,7 @@ public class RegularsBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSet(@NotNull RegularsParser.SetContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRegex(@NotNull RegularsParser.RegexContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -91,6 +91,14 @@ public class RegularsBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitSet_items(@NotNull RegularsParser.Set_itemsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNumber(@NotNull RegularsParser.NumberContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

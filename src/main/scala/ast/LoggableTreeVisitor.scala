@@ -102,4 +102,14 @@ trait LoggableTreeVisitor extends OurAbstractTreeVisitorTrait {
     logger.fine(s"enter visitMetacharacter with context $ctx")
     super.visitMetacharacter(ctx)
   }
+
+  override def visitFixed_repeat_regex(ctx: Fixed_repeat_regexContext): ASTNode = {
+    logger.fine(s"enter visitFixed_repeat_regex with context $ctx")
+    super.visitFixed_repeat_regex(ctx)
+  }
+
+  override def visitNumber(ctx: NumberContext): ASTNode = {
+    logger.fine(s"enter visitNumber with context $ctx")
+    super.visitNumber(ctx)
+  }
 }

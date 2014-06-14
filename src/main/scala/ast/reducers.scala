@@ -63,7 +63,7 @@ class AlternativeReducer(list: List[ASTNode]) {
   }
 
 
-  def reduceSimpleFront(listIn: List[ASTNode]): List[ASTNode] =
+  def reduceSimple(listIn: List[ASTNode]): List[ASTNode] =
     listIn match {
       case Nil => Nil
       case element :: restElements =>
@@ -81,7 +81,7 @@ class AlternativeReducer(list: List[ASTNode]) {
                 element :: notAccepted
               case head :: tail =>
                 println(s"executed ${element.toRegex} | ${head.toRegex} => ${internalElem.toRegex}")
-                reduceSimpleFront(externalElem :: notAccepted ::: tail)
+                reduceSimple(externalElem :: notAccepted ::: tail)
             }
           case _ =>
             val (notAccepted, accepted) =
@@ -95,18 +95,18 @@ class AlternativeReducer(list: List[ASTNode]) {
                 element :: notAccepted
               case head :: tail =>
                 println(s"executed ${element.toRegex} | ${head.toRegex} => ${head.toRegex}")
-                reduceSimpleFront(head :: notAccepted ::: tail)
+                reduceSimple(head :: notAccepted ::: tail)
             }
         }
     }
 
   def reduce(list: List[ASTNode]): List[ASTNode] = {
     println(s"reducePRV $list")
-    val result = list match {
+    val result = list.distinct match {
       case Nil => Nil
-      case head :: tail => head :: reduceSimpleFront(tail)
+      case head :: tail => head :: reduceSimple(tail)
     }
-    reduceSimpleFront(result)
+    reduceSimple(result)
   }
 
   def reduceAlternatives = reduce(list)

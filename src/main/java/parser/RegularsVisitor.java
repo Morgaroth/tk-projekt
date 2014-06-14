@@ -12,11 +12,11 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface RegularsVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link RegularsParser#wh}.
+	 * Visit a parse tree produced by {@link RegularsParser#fixed_repeat_regex}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitWh(@NotNull RegularsParser.WhContext ctx);
+	T visitFixed_repeat_regex(@NotNull RegularsParser.Fixed_repeat_regexContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link RegularsParser#plus}.
@@ -54,18 +54,18 @@ public interface RegularsVisitor<T> extends ParseTreeVisitor<T> {
 	T visitOne_or_none(@NotNull RegularsParser.One_or_noneContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link RegularsParser#regex}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRegex(@NotNull RegularsParser.RegexContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link RegularsParser#set}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSet(@NotNull RegularsParser.SetContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link RegularsParser#regex}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRegex(@NotNull RegularsParser.RegexContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link RegularsParser#star}.
@@ -80,6 +80,13 @@ public interface RegularsVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSet_items(@NotNull RegularsParser.Set_itemsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link RegularsParser#number}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNumber(@NotNull RegularsParser.NumberContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link RegularsParser#metacharacter}.

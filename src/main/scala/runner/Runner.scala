@@ -16,11 +16,9 @@ object Runner {
       //agregaty
       case Regex(m) =>
         // regex jest zbiorem alternatyw, więc redukujemy po alternatywach
-        println(s"reduce $m")
+        println(s"reduce Regex $m")
         import AlternativeReducer._
-        val mapOfSimplified: List[ASTNode] = m.map(simplifier)
-        println(s"mapOfSimplified $mapOfSimplified")
-        Regex(mapOfSimplified.reduceAlternatives.reverse.reduceAlternatives.reverse)
+        Regex(m.map(simplifier).reduceAlternatives)
       case SimpleRegex(m) =>
         println(s"simplifying SimpleRegex { $m }")
         val reduced: List[ASTNode] = reduceList(m)

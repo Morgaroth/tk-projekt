@@ -41,6 +41,15 @@ case class ZeroOrOne(elem: ASTNode) extends ASTNode {
   override def toRegex: String = elem.toRegex + "?"
 }
 
+case class FixedRepeting(elem: ASTNode, min: Int, max: Int) extends ASTNode {
+  override def toRegex: String = elem.toRegex + "{" + min.toString + (
+    if (max == Int.MaxValue)
+      ","
+    else if (max < Int.MaxValue && max > min)
+      s",${max.toString}"
+    ) + "}"
+}
+
 //
 
 case class ElementaryRegex(elem: ASTNode) extends ASTNode {
@@ -74,6 +83,10 @@ case class Meta(character: Char) extends ASTNode {
 
 case class NonMeta(character: Char) extends ASTNode {
   override def toRegex: String = character.toString
+}
+
+case class Number(value: Int) extends ASTNode {
+
 }
 
 //itd
