@@ -15,10 +15,14 @@ basic_regex : star
             | fixed_repeat_regex
             ;
 
-fixed_repeat_regex  : elementary_regex '{' number '}'
-                    | elementary_regex '{' number ',' '}'
-                    | elementary_regex '{' number ',' number '}'
+fixed_repeat_regex  : fixed_exact
+                    | fixed_min_inf
+                    | fixed_min_max
                     ;
+
+fixed_exact :   elementary_regex '{' number '}' ;
+fixed_min_inf   :   elementary_regex '{' number ',' '}' ;
+fixed_min_max   :   elementary_regex '{' number ',' number '}' ;
 
 one_or_none : elementary_regex '?' ;
 

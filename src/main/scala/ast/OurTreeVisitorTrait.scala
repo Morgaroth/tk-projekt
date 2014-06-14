@@ -22,7 +22,7 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
   }
 
   override def visitBasic_regex(ctx: Basic_regexContext): ASTNode = {
-    val notNulls = List(ctx.star(), ctx.plus(), ctx.elementary_regex(), ctx.one_or_none()).filter(_ != null)
+    val notNulls = List(ctx.star(), ctx.plus(), ctx.elementary_regex(), ctx.one_or_none(), ctx.fixed_repeat_regex()).filter(_ != null)
     assert(notNulls.size == 1, s"WTF, not one not null ? -> $notNulls")
     notNulls.head.accept(this)
   }
@@ -111,9 +111,31 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
     NonMeta(nonMeta)
   }
 
-  override def visitFixed_repeat_regex(ctx: Fixed_repeat_regexContext): ASTNode = {
-    super.visitFixed_repeat_regex(ctx)
+  override def visitFixed_min_max(ctx: Fixed_min_maxContext): ASTNode = {
+    val min = ctx.number(0).accept(this).asInstanceOf[Number]
+    val max = ctx.number(1).accept(this).asInstanceOf[Number]
+    val elem = ctx.elementary_regex().accept(this)
+    FixedRepeting(elem, min.value, max.value)
   }
+
+  override def visitFixed_min_inf(ctx: Fixed_min_infContext): ASTNode = {
+    val min = ctx.number.accept(this).asInstanceOf[Number]
+    val elem = ctx.elementary_regex().accept(this)
+    FixedRepeting(elem, min.value)
+  }
+
+  override def visitFixed_exact(ctx: Fixed_exactContext): ASTNode = {
+    val number = ctx.number.accept(this).asInstanceOf[Number]
+    val elem = ctx.elementary_regex().accept(this)
+    FixedRepeting(elem, number.value, number.value)
+  }
+
+  override def visitFixed_repeat_regex(ctx: Fixed_repeat_regexContext): ASTNode = {
+    val notNulls = List(ctx.fixed_exact(), ctx.fixed_min_inf(), ctx.fixed_min_max()).filter(_ != null)
+    assert(notNulls.size == 1, s"WTF, not one not null ? -> $notNulls")
+    notNulls.head.accept(this)
+  }
+
 
   override def visitNumber(ctx: NumberContext): ASTNode = {
     val number = ctx.NUMBER().asScala.map(_.toString).reduce(_ + _)

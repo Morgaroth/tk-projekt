@@ -41,13 +41,20 @@ case class ZeroOrOne(elem: ASTNode) extends ASTNode {
   override def toRegex: String = elem.toRegex + "?"
 }
 
-case class FixedRepeting(elem: ASTNode, min: Int, max: Int) extends ASTNode {
+case class FixedRepeting(elem: ASTNode, min: Int, max: Int = FixedRepeting.INFINITY) extends ASTNode {
+
+  import ast.FixedRepeting._
+
   override def toRegex: String = elem.toRegex + "{" + min.toString + (
-    if (max == Int.MaxValue)
+    if (max == INFINITY)
       ","
-    else if (max < Int.MaxValue && max > min)
+    else if (max < INFINITY && max > min)
       s",${max.toString}"
     ) + "}"
+}
+
+object FixedRepeting {
+  val INFINITY = Int.MaxValue
 }
 
 //

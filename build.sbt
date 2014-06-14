@@ -11,6 +11,8 @@ libraryDependencies ++= Seq(
   "org.specs2" %% "specs2" % "2.3.12"
 )
 
+scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature")
+
 antlr4Settings
 
 antlr4GenListener in Antlr4 := false
