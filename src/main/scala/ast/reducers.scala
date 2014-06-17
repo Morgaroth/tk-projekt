@@ -11,6 +11,48 @@ class Reducer(list: List[ASTNode]) {
     import ast.FixedRepeting.INFINITY
     list match {
       // ========================================================================================
+      // * multiple agregators
+      case (e@ZeroOrMore(i@ZeroOrMore(elem))) :: tail =>
+        println(s"executed ${e.toRegex} => ${i.toRegex}")
+        reducePrv(i :: tail)
+      case (e@ZeroOrMore(OneOrMore(elem))) :: tail =>
+        val more = ZeroOrMore(elem)
+        println(s"executed ${e.toRegex} => ${more.toRegex}")
+        reducePrv(more :: tail)
+      case (e@ZeroOrMore(ZeroOrOne(elem))) :: tail =>
+        val more = ZeroOrMore(elem)
+        println(s"executed ${e.toRegex} => ${more.toRegex}")
+        reducePrv(more :: tail)
+
+      case (e@OneOrMore(i@OneOrMore(elem))) :: tail =>
+        println(s"executed ${e.toRegex} => ${i.toRegex}")
+        reducePrv(i :: tail)
+      case (e@OneOrMore(i@ZeroOrMore(elem))) :: tail =>
+        println(s"executed ${e.toRegex} => ${i.toRegex}")
+        reducePrv(i :: tail)
+      case (e@OneOrMore(ZeroOrOne(elem))) :: tail =>
+        val more = ZeroOrMore(elem)
+        println(s"executed ${e.toRegex} => ${more.toRegex}")
+        reducePrv(more :: tail)
+
+      case (e@ZeroOrOne(ZeroOrMore(elem))) :: tail =>
+        val more = ZeroOrMore(elem)
+        println(s"executed ${e.toRegex} => ${more.toRegex}")
+        reducePrv(more :: tail)
+      case (e@ZeroOrOne(OneOrMore(elem))) :: tail =>
+        val more = ZeroOrMore(elem)
+        println(s"executed ${e.toRegex} => ${more.toRegex}")
+        reducePrv(more :: tail)
+      case (e@ZeroOrOne(i@ZeroOrOne(elem))) :: tail =>
+        println(s"executed ${e.toRegex} => ${i.toRegex}")
+        reducePrv(i :: tail)
+
+      // ========================================================================================
+      // *
+      case (elem1: ASTNode) :: (elem2@SimpleRegex(items)) :: tail => reducePrv(elem1 :: items ::: tail)
+      case (elem2@SimpleRegex(items)) :: (elem1: ASTNode) :: tail => reducePrv(elem1 :: items ::: tail)
+
+      // ========================================================================================
       // * reducers with *
       case (f@ZeroOrMore(firstElem)) :: (secondElem: ASTNode) :: tail if firstElem.equals(secondElem) =>
         val more = OneOrMore(secondElem)
@@ -145,70 +187,6 @@ class Reducer(list: List[ASTNode]) {
     }
   }
 
-  def reduceItself = reducePrv(list)
+  def reduceConiunction = reducePrv(list)
 }
 
-object AlternativeReducer {
-  implicit def wrapToAlternativeReducer(list: List[ASTNode]) = new AlternativeReducer(list)
-}
-
-class AlternativeReducer(list: List[ASTNode]) {
-
-  object Element {
-    def unapply(elem: ASTNode) =
-      elem match {
-        case plus@OneOrMore(pIn) => Some((plus, pIn))
-        case star@ZeroOrMore(sIn) => Some((star, sIn))
-        case ask@ZeroOrOne(askIn) => Some((ask, askIn))
-        case _ => None
-      }
-  }
-
-  def reduceSimple(listIn: List[ASTNode]): List[ASTNode] =
-    listIn match {
-      case Nil => Nil
-      case element :: restElements =>
-        println(s"reduce simple elem $element with $restElements")
-        element match {
-          case Element(externalElem, internalElem) =>
-            val (notAccepted, accepted) =
-              restElements.span {
-                  case second if internalElem.equals(second) => false
-                case _ => true
-              }
-            //accepted albo jest pusta, albo znalazło dobry element
-            accepted match {
-              case Nil =>
-                element :: notAccepted
-              case head :: tail =>
-                println(s"executed ${element.toRegex} | ${head.toRegex} => ${internalElem.toRegex}")
-                reduceSimple(externalElem :: notAccepted ::: tail)
-            }
-          case _ =>
-            val (notAccepted, accepted) =
-              restElements.span {
-                case Element(_, internal) if element.equals(internal) => false
-                case _ => true
-              }
-            //accepted albo jest pusta, albo znalazło dobry element
-            accepted match {
-              case Nil =>
-                element :: notAccepted
-              case head :: tail =>
-                println(s"executed ${element.toRegex} | ${head.toRegex} => ${head.toRegex}")
-                reduceSimple(head :: notAccepted ::: tail)
-            }
-        }
-    }
-
-  def reduce(list: List[ASTNode]): List[ASTNode] = {
-    println(s"reducePRV $list")
-    val result = list.distinct match {
-      case Nil => Nil
-      case head :: tail => head :: reduceSimple(tail)
-    }
-    reduceSimple(result)
-  }
-
-  def reduceAlternatives = reduce(list)
-}

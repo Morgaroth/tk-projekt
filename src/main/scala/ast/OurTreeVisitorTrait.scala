@@ -10,14 +10,14 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
 
   override def visitRegex(ctx: RegexContext): Regex = {
     val list = ctx.simple_regex().asScala.toList.map(_.accept(this))
-    println(s"visitRegex with elements $list size ${list.size}")
+    //    println(s"visitRegex with elements $list size ${list.size}")
     Regex(list)
   }
 
   override def visitSimple_regex(ctx: Simple_regexContext): SimpleRegex = {
     val basicRegex = ctx.basic_regex()
     val result = basicRegex.asScala.toList.map(_.accept(this))
-    println(s"visitSimpleRegex $result, size=${result.size}")
+    //    println(s"visitSimpleRegex $result, size=${result.size}")
     SimpleRegex(result)
   }
 
@@ -29,13 +29,12 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
 
   override def visitPlus(ctx: PlusContext): OneOrMore = {
     val elementary_regex: ASTNode = visitElementary_regex(ctx.elementary_regex())
-    println(s"visitPlus $elementary_regex")
     OneOrMore(elementary_regex)
   }
 
   override def visitStar(ctx: StarContext): ZeroOrMore = {
     val elementary_regex = ZeroOrMore(visitElementary_regex(ctx.elementary_regex()))
-    println(s"visitStar $elementary_regex")
+    //    println(s"visitStar $elementary_regex")
     elementary_regex
   }
 
@@ -49,6 +48,7 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
   }
 
   override def visitGroup(ctx: GroupContext): ASTNode =
+  //      Group(visitRegex(ctx.regex()))
     visitRegex(ctx.regex())
 
   override def visitAny(ctx: AnyContext): ASTNode = Any()
@@ -91,7 +91,7 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
       } else {
         throw new WTFException
       }
-    println(s"visitCharacter $meta")
+    //    println(s"visitCharacter $meta")
     meta
   }
 
@@ -99,7 +99,7 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
     Range(visitNonmetacharacter(ctx.nonmetacharacter(0)), visitNonmetacharacter(ctx.nonmetacharacter(1)))
 
   override def visitMetacharacter(ctx: MetacharacterContext): Meta = {
-    println(s"visiting metcharacter ${ctx.METACHARACTER().toString}")
+    //    println(s"visiting metcharacter ${ctx.METACHARACTER().toString}")
     assert(ctx.METACHARACTER().getSymbol.getText.length == 1, "not one symbol!")
     Meta(ctx.METACHARACTER().getSymbol.getText.charAt(0))
   }
@@ -107,7 +107,7 @@ trait OurTreeVisitorTrait extends OurAbstractTreeVisitorTrait with LoggableTreeV
   override def visitNonmetacharacter(ctx: NonmetacharacterContext): NonMeta = {
     assert(ctx.ANONMETACHARACTER().getSymbol.getText.length == 1, "not one symbol!")
     val nonMeta: Char = ctx.ANONMETACHARACTER().getSymbol.getText.charAt(0)
-    println(s"visitNonmetacharacter $nonMeta")
+    //    println(s"visitNonmetacharacter $nonMeta")
     NonMeta(nonMeta)
   }
 

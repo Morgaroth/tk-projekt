@@ -63,7 +63,11 @@ case class ElementaryRegex(elem: ASTNode) extends ASTNode {
   override def toRegex: String = elem.toRegex
 }
 
-case class Group() extends ASTNode
+case class Group(elem: ASTNode) extends ASTNode {
+  override def toRegex: String = '(' + elem.toRegex + ')'
+
+  override def toString: String = "GROUP {" + elem.toString + "}"
+}
 
 case class Any() extends ASTNode
 
