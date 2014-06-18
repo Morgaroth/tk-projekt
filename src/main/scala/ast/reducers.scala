@@ -187,6 +187,14 @@ class Reducer(list: List[ASTNode]) {
     }
   }
 
+  def extend(list: List[ASTNode]): List[ASTNode] =
+    list match {
+      case Nil => Nil
+      case elem :: tail =>
+        val extended =
+    }
+
+
   def reduceConiunction = reducePrv(list)
 }
 
