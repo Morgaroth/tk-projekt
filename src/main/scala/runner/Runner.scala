@@ -7,21 +7,39 @@ import parser.{RegularsLexer, RegularsParser}
 
 object Runner {
 
-  def simplifier(node: ASTNode): ASTNode = {
+  def extend(elem: ASTNode) = elem match {
+    case prev@ZeroOrMore(Regex(elems)) if elems.size > 1 =>
+      val more = Regex(elems.map(ZeroOrMore))
+      println(s"extending ${prev.toRegex} => ${more.toRegex}")
+      more
+    case prev@OneOrMore(Regex(elems)) if elems.size > 1 =>
+      val more = Regex(elems.map(OneOrMore))
+      println(s"extending ${prev.toRegex} => ${more.toRegex}")
+      more
+    case prev@ZeroOrOne(Regex(elems)) if elems.size > 1 =>
+      val more = Regex(elems.map(ZeroOrOne))
+      println(s"extending ${prev.toRegex} => ${more.toRegex}")
+      more
+    case _ => elem
+  }
+
+
+  def simplifier(node1: ASTNode): ASTNode = {
     def reduceList(elems: List[ASTNode]) = {
       import ast.Reducer._
       elems.map(simplifier).reduceConiunction
     }
-    println(s"simplifier with ${node.toRegex} as $node")
+    println(s"simplifier $node1 as ${node1.toRegex}")
+    val node = extend(node1)
+    val sb = node.toPrettyString(StringBuilder.newBuilder)
+    println(sb.toString())
     node match {
       //agregaty
       case Regex(m) =>
-        // regex jest zbiorem alternatyw, więc redukujemy po alternatywach
-        println(s"reduce Regex $m")
         import ast.AlternativeReducer._
+        // regex jest zbiorem alternatyw, więc redukujemy po alternatywach
         Regex(m.map(simplifier).reduceAlternatives)
       case SimpleRegex(m) =>
-        println(s"simplifying SimpleRegex { $m }")
         val reduced: List[ASTNode] = reduceList(m)
         reduced.size match {
           case 1 => reduced.head
