@@ -6,12 +6,14 @@ object Reducer {
 
 class Reducer(list: List[ASTNode]) {
 
+  def reduceConiunction = reducePrv(list)
+
   private def reducePrv(list: List[ASTNode]): List[ASTNode] = {
     println(s"reducing $list")
     import ast.FixedRepeting.INFINITY
     list match {
       // ========================================================================================
-      // * multiple agregators
+      // * multiple nesed agregators
       case (e@ZeroOrMore(i@ZeroOrMore(elem))) :: tail =>
         println(s"executed ${e.toRegex} => ${i.toRegex}")
         reducePrv(i :: tail)
@@ -186,7 +188,5 @@ class Reducer(list: List[ASTNode]) {
       case Nil => Nil
     }
   }
-
-  def reduceConiunction = reducePrv(list)
 }
 

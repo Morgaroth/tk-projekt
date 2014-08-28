@@ -38,7 +38,11 @@ object Runner {
       case Regex(m) =>
         import ast.AlternativeReducer._
         // regex jest zbiorem alternatyw, więc redukujemy po alternatywach
-        Regex(m.map(simplifier).reduceAlternatives)
+        val alternatives: List[ASTNode] = m.map(simplifier).reduceAlternatives
+        alternatives.size match {
+          case 1 => alternatives.head
+          case _ => Regex(alternatives)
+        }
       case SimpleRegex(m) =>
         val reduced: List[ASTNode] = reduceList(m)
         reduced.size match {
@@ -68,7 +72,10 @@ object Runner {
     println(tree)
     println(tree.toRegex)
     val result: ASTNode = simplifier(tree)
-    result
+    val extended = Extender.extend(result)
+    println(extended.toRegex)
+    val reducedExtended = simplifier(extended)
+    reducedExtended
   }
 
   def main(args: Array[String]) {

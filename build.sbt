@@ -1,5 +1,6 @@
+import org.sbtidea.SbtIdeaPlugin._
 import sbtassembly.Plugin.AssemblyKeys
-import AssemblyKeys._
+import sbtassembly.Plugin.AssemblyKeys._
 
 name := "tk-projekt"
 
@@ -28,3 +29,5 @@ assemblySettings
 jarName in assembly := "simplifier.jar"
 
 mainClass in assembly := Some("runner.Runner")
+
+ideaExcludeFolders ++= Seq(".idea_modules", ".idea", "target")
