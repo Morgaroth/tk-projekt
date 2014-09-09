@@ -25,6 +25,8 @@ antlr4OutputDir in Antlr4 := (javaSource in Compile).value
 
 assemblySettings
 
+test in assembly := {}
+
 jarName in assembly := "simplifier.jar"
 
 mainClass in assembly := Some("runner.Runner")
