@@ -8,7 +8,7 @@ version := "1.0.0"
 scalaVersion := "2.10.4"
 
 libraryDependencies ++= Seq(
-  "org.specs2" %% "specs2" % "2.3.12"
+  "org.specs2" %% "specs2" % "2.3.12" % "test"
 )
 
 scalacOptions := Seq("-unchecked", "-deprecation", "-encoding", "utf8", "-feature")
