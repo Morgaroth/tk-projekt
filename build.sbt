@@ -1,5 +1,4 @@
 import org.sbtidea.SbtIdeaPlugin._
-import sbtassembly.Plugin.AssemblyKeys
 import sbtassembly.Plugin.AssemblyKeys._
 
 name := "tk-projekt"
