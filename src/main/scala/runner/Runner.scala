@@ -32,7 +32,7 @@ object Runner {
     //    println(s"simplifier $node1 as ${node1.toRegex}")
     val node = extend(node1)
     val sb = node.toPrettyString(StringBuilder.newBuilder)
-    println(sb.toString())
+    //    println(sb.toString())
     node match {
       //agregaty
       case Regex(m) =>
@@ -69,11 +69,11 @@ object Runner {
       //with LoggableTreeVisitor
       with OurAbstractTreeVisitorTrait
     val tree: ASTNode = parser.start().accept(visitor)
-    println(tree)
-    println(tree.toRegex)
+    //    println(tree)
+    //    println(tree.toRegex)
     val result: ASTNode = simplifier(tree)
     val extended = Extender.extend(result)
-    println(extended.toRegex)
+    //    println(extended.toRegex)
     val reducedExtended = simplifier(extended)
     reducedExtended
   }
@@ -84,7 +84,7 @@ object Runner {
         //        val a = elem.replace( '""", """\""")
         val a = elem
         val result = simple(a)
-        println(result.toRegex)
+        println(s"$a => ${result.toRegex}")
       case _ => println("nie podano argumentów")
     }
   }
