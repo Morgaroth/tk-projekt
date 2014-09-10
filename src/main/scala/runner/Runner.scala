@@ -10,15 +10,15 @@ object Runner {
   def extend(elem: ASTNode) = elem match {
     case prev@ZeroOrMore(Regex(elems)) if elems.size > 1 =>
       val more = Regex(elems.map(ZeroOrMore))
-      println(s"extending ${prev.toRegex} => ${more.toRegex}")
+      //      println(s"extending ${prev.toRegex} => ${more.toRegex}")
       more
     case prev@OneOrMore(Regex(elems)) if elems.size > 1 =>
       val more = Regex(elems.map(OneOrMore))
-      println(s"extending ${prev.toRegex} => ${more.toRegex}")
+      //      println(s"extending ${prev.toRegex} => ${more.toRegex}")
       more
     case prev@ZeroOrOne(Regex(elems)) if elems.size > 1 =>
       val more = Regex(elems.map(ZeroOrOne))
-      println(s"extending ${prev.toRegex} => ${more.toRegex}")
+      //      println(s"extending ${prev.toRegex} => ${more.toRegex}")
       more
     case _ => elem
   }
@@ -29,7 +29,7 @@ object Runner {
       import ast.Reducer._
       elems.map(simplifier).reduceConiunction
     }
-    println(s"simplifier $node1 as ${node1.toRegex}")
+    //    println(s"simplifier $node1 as ${node1.toRegex}")
     val node = extend(node1)
     val sb = node.toPrettyString(StringBuilder.newBuilder)
     println(sb.toString())
@@ -84,8 +84,7 @@ object Runner {
         //        val a = elem.replace( '""", """\""")
         val a = elem
         val result = simple(a)
-        println(result + " dupa")
-        println(result.toRegex + " dupa2")
+        println(result.toRegex)
       case _ => println("nie podano argumentów")
     }
   }
