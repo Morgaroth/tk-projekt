@@ -18,3 +18,9 @@ project/plugins/project/
 # plugin specific
 gen*
 */*/*.iml
+
+
+.git-*
+releases
+
+*.sh
